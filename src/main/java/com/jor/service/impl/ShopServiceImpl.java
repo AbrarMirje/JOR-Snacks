@@ -1,18 +1,19 @@
 package com.jor.service.impl;
 
-import com.jor.entity.*;
+import com.jor.entity.Payments;
+import com.jor.entity.Product;
+import com.jor.entity.Shop;
+import com.jor.entity.ShopBill;
 import com.jor.entity.dto.ShopProductDto;
 import com.jor.exception.ShopNotFoundException;
 import com.jor.repository.PaymentRepository;
 import com.jor.repository.ProductRepository;
 import com.jor.repository.ShopBillRepository;
 import com.jor.repository.ShopRepository;
-import com.jor.service.LocationService;
 import com.jor.service.ShopService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.GetMapping;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -75,7 +76,8 @@ public class ShopServiceImpl implements ShopService {
     }
 
     @Override
-    public List<Shop> findShopsByLocation(Long id) {
+    public List<Shop> findShopsByLocation(Long id)
+    {
         return shopRepository.findByLocation_LocationId(id);
     }
 
@@ -103,11 +105,12 @@ public class ShopServiceImpl implements ShopService {
                 shopBill.setRate(shopProductDto.getShopProductPrice());
                 shopBill.setProductId(product.getProductId());
                 shopBill.setInvoiceNumber(invoiceNumber);
-                shopBill.setTotal(shopProductDto.getShopProductPrice() * shopProductDto.getQuantity());
+                shopBill.setTotal(shopProductDto.getShopProductPrice() * shopBill.getQuantity());
                 shopBillList.add(shopBillRepository.save(shopBill));
-                product.setQuantity(product.getQuantity() - shopBill.getQuantity());
-                productRepository.save(product);
+
             });
+            product.setQuantity(product.getQuantity() - shopBill.getQuantity());
+            productRepository.save(product);
 
         }
         System.out.println("We are here 2");
@@ -142,6 +145,4 @@ public class ShopServiceImpl implements ShopService {
             return "INV-" + datePart + "-0001";
         }
     }
-
-
 }

@@ -17,8 +17,8 @@ public class ShopProductDto {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long shopProductDtoId;
     private Long product;
-    private Integer quantity;
-    private String quantityType;
+//    private Integer quantity;
+//    private String quantityType;
     private Double shopProductPrice;
 
     @ManyToOne

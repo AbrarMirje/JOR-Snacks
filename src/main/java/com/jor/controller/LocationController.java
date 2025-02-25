@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 @RequestMapping("/location")
 @Tag(name = "Location APIs")
+@CrossOrigin("*")
 public class LocationController {
     private final LocationService locationService;
 
